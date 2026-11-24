@@ -1,25 +1,23 @@
 # Raw data
 
-**Source:** _TODO (e.g. Wikipedia "<Sport> at the 2024 Summer Olympics – Medal table", or olympics.com results)_
-**Download date:** _TODO_
+**Source:** English Wikipedia, per-sport medal tables in
+[List of 2024 Summer Olympics medal winners](https://en.wikipedia.org/wiki/List_of_2024_Summer_Olympics_medal_winners)
+(Volleyball, missing there in the extract, from
+[Olympedia](https://www.olympedia.org/editions/63/sports/VVO) / [Beach](https://www.olympedia.org/editions/63/sports/VBV));
+overall table: [2024 Summer Olympics medal table](https://en.wikipedia.org/wiki/2024_Summer_Olympics_medal_table)
+**Download date:** 24.11.2026
 
-`build_context.py` expects two CSV files here:
+## Files
 
-`medal_table.csv` – overall medal table (all sports), used to pick the top 25 nations
+`medals_by_sport.csv` – `sport,nation,gold,silver,bronze`, one row per nation and sport with ≥ 1 medal, all 32 sports.
+Wikipedia groups disciplines into sports: *Canoeing* = slalom + sprint, *Cycling* = BMX + mountain bike + road + track,
+*Gymnastics* = artistic + rhythmic + trampoline, *Volleyball* = indoor + beach, *Basketball* = 5×5 + 3×3.
 
-```
-nation,gold,silver,bronze,total
-United States,40,44,42,126
-...
-```
+`medal_table.csv` – `nation,gold,silver,bronze,total`, summed from `medals_by_sport.csv`.
 
-`medals_by_sport.csv` – one row per nation and sport with at least one medal
+## Checks
 
-```
-nation,sport,gold,silver,bronze
-United States,Swimming,8,13,7
-...
-```
-
-Use the same spelling of nation and sport names in both files.
-Sport names must match the `SPORTS` list in `src/build_context.py`.
+- Column sums: 329 gold, 330 silver, 385 bronze = official totals.
+- Per nation, the sum over all sports equals the official medal table for all 29 nations with ≥ 8 medals.
+- Includes the CAS decision on the women's floor exercise (bronze moved from USA to Romania).
+- Top 25 by total medals has no tie at the cut: ranks 23–25 have 9 medals (Romania, Denmark, Cuba), the next nations have 8.
