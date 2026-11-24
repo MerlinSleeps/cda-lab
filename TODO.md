@@ -9,8 +9,9 @@ Legende: 🧠 = selbst verstehen/entscheiden (Kolloquium!) · ⚙️ = Code/Rech
 
 ## Dienstag 24.11. – Grundlagen + Schritt 1–2
 - [ ] ⚙️ Setup lokal: `git clone`, venv, `pip install -r requirements.txt`, Graphviz installieren, `pytest` läuft
-- [ ] 🧠 Sportarten final wählen (12–15) und begründen; Ziel: lesbares Diagramm (aktuell 14 Sportarten → 269 Begriffe, zu viel)
-- [ ] ⚙️ `SPORTS` im Skript anpassen, `olympics.cxt` neu bauen
+- [x] Sportarten gewählt: 13 in drei Generationen (seit 1896 · 1964/2000 · 2020/24) → 125 Begriffe
+- [ ] 🧠 Auswahl im Bericht begründen (inkl. Herkunft vs. Dominanz bei Judo/Taekwondo, was weggelassen wurde)
+- [x] ⚙️ `SPORTS` angepasst, `olympics.cxt` neu gebaut
 - [ ] 🧠 Schritt 1 schreiben: Anteil Kreuze, Nation mit meisten Sportarten, Sportart mit meisten Nationen, Informationsverlust + Beispielnation
 - [ ] 🧠 Ableitungsoperatoren A′, B′, B″ verstehen (Erklärung mit Claude)
 - [ ] 🧠 Schritt 2 (a)–(c): Formel aufschreiben, von Hand an der Tabelle prüfen, mit `fca_tools` gegenchecken
@@ -20,7 +21,8 @@ Legende: 🧠 = selbst verstehen/entscheiden (Kolloquium!) · ⚙️ = Code/Rech
 - [ ] 🧠 NextClosure / lektische Ordnung verstehen
 - [ ] 🧠 Handrechnung auf 5 Sportarten (Papier), erste 3 Schritte mit Begründung; mit `next_closure(..., trace=True)` prüfen; Foto nach `handrechnung/`
 - [ ] 🧠 Anzahl Begriffe vs. 2^|M|; Kontext mit 2^n Begriffen (Kontranominalskala); warum Sportdaten weit darunter bleiben
-- [ ] ⚙️ Liniendiagramm zeichnen (reduzierte Beschriftung), ggf. Layout verbessern
+- [x] ⚙️ Liniendiagramm gezeichnet (`figures/lattice.pdf`)
+- [ ] ⚙️ Layout lesbarer machen (Graphviz-Standard ist unübersichtlich)
 - [ ] 🧠 Schritt 4: ≥ 3 Aussagen aus dem Diagramm ablesen (Unterordnung, unvergleichbar, Lage der Top 5)
 - [ ] ⚙️ Schritt 5: Medaillen-Zwillinge, reduzierbare Sportarten finden (Funktion für Reduzierbarkeit ergänzen)
 - [ ] 🧠 Schritt 5: Bedeutung von Reduzierbarkeit erklären, Form des reduzierten Verbands prüfen

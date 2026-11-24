@@ -21,23 +21,25 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent.parent
 RAW = ROOT / "data" / "raw"
 
-# 12-15 sports. Names must match the "sport" column in medals_by_sport.csv.
-# Justify the choice (and what you left out) in the report, step 1.
+# 13 sports in three "generations" of the Olympic programme:
+#   since 1896:        Athletics, Swimming, Wrestling, Fencing, Gymnastics, Shooting
+#   added 1964 / 2000: Judo (Japan), Taekwondo (Korea), Triathlon
+#   added 2020 / 2024: Breaking, Skateboarding, Sport climbing, Surfing
+# Names must match the "sport" column in medals_by_sport.csv.
 SPORTS = [
     "Athletics",
     "Swimming",
-    "Cycling",
-    "Rowing",
-    "Canoeing",
-    "Gymnastics",
-    "Judo",
     "Wrestling",
-    "Boxing",
     "Fencing",
+    "Gymnastics",
     "Shooting",
-    "Weightlifting",
+    "Judo",
     "Taekwondo",
-    "Sailing",
+    "Triathlon",
+    "Breaking",
+    "Skateboarding",
+    "Sport climbing",
+    "Surfing",
 ]
 
 N_NATIONS = 25
