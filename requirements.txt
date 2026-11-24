@@ -1,0 +1,4 @@
+concepts>=0.9
+pandas>=2.0
+graphviz>=0.20
+pytest>=8.0
