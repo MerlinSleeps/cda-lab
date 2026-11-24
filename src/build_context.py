@@ -59,11 +59,12 @@ def top_nations(table: pd.DataFrame, n: int) -> list[str]:
     return ranked.head(n)["nation"].tolist()
 
 
-def build(gold_only: bool) -> tuple[list[str], list[str], list[list[bool]]]:
+def build(gold_only: bool, sports=None) -> tuple[list[str], list[str], list[list[bool]]]:
+    sports = list(sports or SPORTS)
     by_sport = pd.read_csv(RAW / "medals_by_sport.csv")
     table = pd.read_csv(RAW / "medal_table.csv")
 
-    unknown = set(SPORTS) - set(by_sport["sport"])
+    unknown = set(sports) - set(by_sport["sport"])
     if unknown:
         raise SystemExit(f"Sports not found in raw data: {sorted(unknown)}")
 
@@ -71,8 +72,8 @@ def build(gold_only: bool) -> tuple[list[str], list[str], list[list[bool]]]:
     count = by_sport["gold"] if gold_only else by_sport[["gold", "silver", "bronze"]].sum(axis=1)
     has = set(zip(by_sport.loc[count > 0, "nation"], by_sport.loc[count > 0, "sport"]))
 
-    rows = [[(g, m) in has for m in SPORTS] for g in nations]
-    return nations, SPORTS, rows
+    rows = [[(g, m) in has for m in sports] for g in nations]
+    return nations, sports, rows
 
 
 def write_cxt(path: Path, objects, attributes, rows) -> None:

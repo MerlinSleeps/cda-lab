@@ -1,48 +1,47 @@
-# TODO – Sheet 1 (Abgabe Do 26.11.2026)
+# TODO – Sheet 1 (deadline Thu 26.11.2026)
 
-Legende: 🧠 = selbst verstehen/entscheiden (Kolloquium!) · ⚙️ = Code/Rechnen, Claude kann helfen
+Legend: 🧠 = understand/decide yourself (colloquium!) · ⚙️ = code/computation, Claude can help
 
-## Erledigt
-- [x] Repo-Struktur, `build_context.py`, `fca_tools.py`, Tests, Report-Vorlage
-- [x] Rohdaten aller 32 Sportarten (Wikipedia/Olympedia), gegen offiziellen Medaillenspiegel geprüft
-- [x] Top 25 festgelegt (kein Gleichstand an der Grenze)
+## Done
+- [x] Repo structure, `build_context.py`, `fca_tools.py`, tests, report template
+- [x] Raw data for all 32 sports (Wikipedia/Olympedia), checked against the official medal table
+- [x] Top 25 fixed (no tie at the cut)
+- [x] Setup on MacBook (packages installed, tests pass)
+- [x] Sports chosen: 13 in three generations (since 1896 · 1964/2000 · 2020/24) → 125 concepts
+- [x] `SPORTS` updated, `olympics.cxt` and `olympics_gold.cxt` rebuilt
+- [x] Diagram history in `figures/` (Graphviz → additive → interactive), see `figures/README.md`
+- [x] Interactive additive line diagram (`figures/05_interactive.html`) with highlighting and SVG export
 
-## Dienstag 24.11. – Grundlagen + Schritt 1–2
-- [ ] ⚙️ Setup lokal: `git clone`, venv, `pip install -r requirements.txt`, Graphviz installieren, `pytest` läuft
-- [x] Sportarten gewählt: 13 in drei Generationen (seit 1896 · 1964/2000 · 2020/24) → 125 Begriffe
-- [ ] 🧠 Auswahl im Bericht begründen (inkl. Herkunft vs. Dominanz bei Judo/Taekwondo, was weggelassen wurde)
-- [x] ⚙️ `SPORTS` angepasst, `olympics.cxt` neu gebaut
-- [ ] 🧠 Schritt 1 schreiben: Anteil Kreuze, Nation mit meisten Sportarten, Sportart mit meisten Nationen, Informationsverlust + Beispielnation
-- [ ] 🧠 Ableitungsoperatoren A′, B′, B″ verstehen (Erklärung mit Claude)
-- [ ] 🧠 Schritt 2 (a)–(c): Formel aufschreiben, von Hand an der Tabelle prüfen, mit `fca_tools` gegenchecken
-- [ ] 🧠 „Abgeschlossen“ in Journalisten-Sprache formulieren
+## Tue 24.11. – foundations + steps 1–2
+- [ ] 🧠 Justify the sport selection in the report (incl. origin vs. dominance for judo/taekwondo, what was left out)
+- [ ] 🧠 Write step 1: share of crosses, nation with most sports, sport with most nations, information loss + example nation
+- [ ] 🧠 Understand the derivation operators A′, B′, B″ (explanation with Claude)
+- [ ] 🧠 Step 2 (a)–(c): write the formula, check by hand on the cross table, cross-check with `fca_tools` / interactive diagram
+- [ ] 🧠 Explain "closed" in a sports journalist's words
 
-## Mittwoch 25.11. – Schritt 3–5
-- [ ] 🧠 NextClosure / lektische Ordnung verstehen
-- [ ] 🧠 Handrechnung auf 5 Sportarten (Papier), erste 3 Schritte mit Begründung; mit `next_closure(..., trace=True)` prüfen; Foto nach `handrechnung/`
-- [ ] 🧠 Anzahl Begriffe vs. 2^|M|; Kontext mit 2^n Begriffen (Kontranominalskala); warum Sportdaten weit darunter bleiben
-- [x] ⚙️ Liniendiagramm gezeichnet (`figures/lattice.pdf`)
-- [x] ⚙️ Interaktives additives Liniendiagramm (`figures/lattice.html`, `lattice_gold.html`) mit Hervorhebung und SVG-Export
-- [ ] 🧠 Je Befund eine markierte Ansicht als SVG exportieren und in den Bericht einbinden
-- [ ] 🧠 Schritt 4: ≥ 3 Aussagen aus dem Diagramm ablesen (Unterordnung, unvergleichbar, Lage der Top 5)
-- [ ] ⚙️ Schritt 5: Medaillen-Zwillinge, reduzierbare Sportarten finden (Funktion für Reduzierbarkeit ergänzen)
-- [ ] 🧠 Schritt 5: Bedeutung von Reduzierbarkeit erklären, Form des reduzierten Verbands prüfen
+## Wed 25.11. – steps 3–5
+- [ ] 🧠 Understand NextClosure / lectic order
+- [ ] 🧠 Hand computation on 5 sports (paper), first 3 steps with reasons; check with `next_closure(..., trace=True)`; photo into `handrechnung/`
+- [ ] 🧠 Number of concepts vs. 2^|M|; context with 2^n concepts (contranominal scale); why sports data stays far below
+- [ ] 🧠 Export one highlighted view per finding as SVG and include it in the report
+- [ ] 🧠 Step 4: read ≥ 3 statements off the diagram (subordination, incomparable, position of the top 5)
+- [ ] ⚙️ Step 5: medal twins, reducible sports (add a reducibility function)
+- [ ] 🧠 Step 5: explain what reducibility means, check the shape of the reduced lattice
 
-## Donnerstag 26.11. – Schritt 6 + Abgabe
-- [ ] 🧠 3–5 Befunde mit Begriff (Umfang/Inhalt), im Diagramm markiert; ≥ 1 Befund, den der Medaillenspiegel nicht zeigt
-- [ ] ⚙️ Gold-Variante (`--gold-only`) bauen, Diagramm
-- [ ] 🧠 Robustheit: Welche Befunde überleben die Gold-Variante?
-- [ ] 🧠 Bericht fertigstellen (≤ 5 Seiten + Anhang), Quelle + Abrufdatum drin
-- [ ] ⚙️ Export als PDF, Seitenzahl prüfen
-- [ ] 🧠 `AI_LOG.md` vervollständigen (TODO-Felder: was geprüft/geändert)
-- [ ] 🧠 Stichproben der Rohdaten selbst gegen Wikipedia prüfen
-- [ ] Abgabe-Checkliste im README durchgehen, abgeben
+## Thu 26.11. – step 6 + submission
+- [ ] 🧠 3–5 findings with concept (extent/intent), marked in the diagram; ≥ 1 finding the medal table cannot show
+- [x] ⚙️ Gold-only variant built (`olympics_gold.cxt`, `figures/05_interactive_gold.html`)
+- [ ] 🧠 Robustness: which findings survive the gold-only variant?
+- [ ] 🧠 Finish the report (≤ 5 pages + appendix), source + download date included
+- [ ] ⚙️ Export as PDF, check page count
+- [ ] 🧠 Complete `AI_LOG.md` (TODO fields: what was checked/changed)
+- [ ] 🧠 Spot-check the raw data against Wikipedia yourself
+- [ ] Go through the submission checklist in the README, submit
 
-## Kolloquium-Vorbereitung
-- [ ] 🧠 Ableitung und Hülle auf der eigenen Tabelle von Hand rechnen können
-- [ ] 🧠 Zu jedem Befund den Begriff im Diagramm zeigen können
+## Colloquium preparation
+- [ ] 🧠 Compute a derivation and a closure by hand on the own cross table
+- [ ] 🧠 Point to the concept behind every finding in the diagram
 
-## Offen / zu klären
-- [ ] Abgabezeit am 26.11. (Uhrzeit?) und Abgabeweg (Moodle?)
-- [ ] Sprache des Berichts (Blatt ist Englisch)
-- [ ] Format und Inhalt der allgemeinen KI-Richtlinie für `AI_LOG.md`
+## Open questions
+- [ ] Submission time on 26.11. and submission channel (Moodle?)
+- [ ] Format and content required by the general AI policy for `AI_LOG.md`

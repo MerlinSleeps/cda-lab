@@ -13,6 +13,7 @@ data/raw/            raw medal data + source/download date (README there)
 src/build_context.py raw CSV -> olympics.cxt (+ --gold-only for step 6)
 src/fca_tools.py     derivation, closure, NextClosure trace, lattice, twins
 src/lattice_view.py  interactive additive line diagram (HTML), highlight sports/nations, SVG export
+src/make_figures.py  regenerates the diagram history 01-05 in figures/
 figures/             line diagram(s)
 handrechnung/        photo/scan of the NextClosure hand computation (step 3)
 report.md            the report (max. 5 pages + appendix)
@@ -37,8 +38,7 @@ macOS `brew install graphviz`, Windows `winget install Graphviz.Graphviz` (then 
 python src/build_context.py              # -> olympics.cxt + stats for step 1
 python src/build_context.py --gold-only  # -> olympics_gold.cxt for step 6
 python src/fca_tools.py                  # number of concepts, medal twins
-python src/lattice_view.py               # -> figures/lattice.html (interactive diagram)
-python src/lattice_view.py olympics_gold.cxt  # -> figures/lattice_gold.html
+python src/make_figures.py               # -> all diagrams in figures/ (see figures/README.md)
 python -m pytest -q                      # helper self-test
 ```
 
@@ -51,7 +51,7 @@ K = ft.load()
 ft.down(K, {"Judo", "Wrestling"})   # 2(a)
 ft.closure(K, {"Swimming"})         # 2(b)
 ft.next_closure(K, ["Swimming", "Judo", "Wrestling", "Boxing", "Rowing"], trace=True)  # check step 3
-ft.draw(K)                          # figures/lattice.pdf
+ft.draw(K)                          # Graphviz diagram (see also make_figures.py)
 ```
 
 ## Submission checklist

@@ -6,8 +6,8 @@ and lines with the same sport added are parallel. The x-components are chosen
 by generation (classic left, new right) and then tuned by a small random search
 that pushes nodes apart and away from lines they do not belong to.
 
-    python src/lattice_view.py                  # olympics.cxt
-    python src/lattice_view.py olympics_gold.cxt
+    python src/lattice_view.py                  # olympics.cxt -> figures/05_interactive.html
+    python src/lattice_view.py olympics_gold.cxt  # -> figures/05_interactive_gold.html
 """
 
 import json
@@ -29,7 +29,7 @@ GENERATION = {
     "Breaking": 2, "Skateboarding": 2, "Sport climbing": 2, "Surfing": 2,
 }
 RANGE = {0: (-1.0, -0.1), 1: (-0.45, 0.45), 2: (0.1, 1.0)}
-GEN_NAME = {0: "seit 1896", 1: "1964 / 2000", 2: "2020 / 2024"}
+GEN_NAME = {0: "since 1896", 1: "added 1964 / 2000", 2: "added 2020 / 2024"}
 
 
 def spread(x, y, gap=0.2):
@@ -47,8 +47,8 @@ def spread(x, y, gap=0.2):
     return x
 
 
-def build(cxt="olympics.cxt", iters=6000, seed=1):
-    K = ft.load(cxt)
+def build(K, iters=6000, seed=1):
+    """K: concepts.Context. Returns positions (pure additive and spread) and graph."""
     M = list(K.properties)
     G = list(K.objects)
     L = list(K.lattice)
@@ -87,13 +87,15 @@ def build(cxt="olympics.cxt", iters=6000, seed=1):
         s = score(cand)
         if s < best:
             vx, best = cand, s
-    x = spread(A @ vx, y)
+    x_raw = A @ vx
+    x = spread(x_raw, y)
 
     nodes = [{
         "x": round(float(x[idx[c]]), 4), "y": int(y[idx[c]]),
         "extent": sorted(c.extent), "intent": [m for m in M if m in c.intent],
     } for c in L]
-    return K, M, G, L, idx, nodes, edges, vx, best
+    return {"K": K, "M": M, "G": G, "L": L, "idx": idx, "nodes": nodes, "edges": edges,
+            "vx": vx, "score": best, "x_raw": x_raw, "x": x, "y": y}
 
 
 def label_maps(K, L, idx):
@@ -109,12 +111,12 @@ def label_maps(K, L, idx):
     return attr, obj
 
 
-def main():
-    cxt = sys.argv[1] if len(sys.argv) > 1 else "olympics.cxt"
-    K, M, G, L, idx, nodes, edges, vx, best = build(cxt)
+def write_html(K, out, title):
+    r = build(K)
+    M, G, L, idx, nodes, edges, vx = (r[k] for k in ("M", "G", "L", "idx", "nodes", "edges", "vx"))
     attr, obj = label_maps(K, L, idx)
     data = {
-        "title": f"Paris 2024 – {cxt}",
+        "title": title,
         "sports": [{"name": m, "gen": GENERATION.get(m, 1), "concept": attr[m],
                     "vx": round(float(v), 3)} for m, v in zip(M, vx)],
         "nations": [{"name": g, "concept": obj[g]} for g in G],
@@ -124,9 +126,14 @@ def main():
     }
     template = (ROOT / "src" / "lattice_template.html").read_text(encoding="utf-8")
     html = template.replace("/*DATA*/null", json.dumps(data, ensure_ascii=False))
-    out = ROOT / "figures" / (Path(cxt).stem.replace("olympics", "lattice") + ".html")
     out.write_text(html, encoding="utf-8")
-    print(f"wrote {out.relative_to(ROOT)}: {len(nodes)} concepts, layout score {best:.2f}")
+    print(f"wrote {out.relative_to(ROOT)}: {len(nodes)} concepts, layout score {r['score']:.2f}")
+
+
+def main():
+    cxt = sys.argv[1] if len(sys.argv) > 1 else "olympics.cxt"
+    name = "05_interactive_gold.html" if "gold" in cxt else "05_interactive.html"
+    write_html(ft.load(cxt), ROOT / "figures" / name, f"Paris 2024 – {cxt}")
 
 
 if __name__ == "__main__":

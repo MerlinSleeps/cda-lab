@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Begriffsverband Paris 2024</title>
+<title>Concept lattice Paris 2024</title>
 <style>
   :root {
     --bg: #fbfaf7; --fg: #1d1d1b; --muted: #8a877f; --line: #cfccc4;
@@ -51,35 +51,35 @@
 </head>
 <body>
 <aside>
-  <h1>Begriffsverband Paris 2024</h1>
+  <h1>Concept lattice Paris 2024</h1>
   <div class="sub" id="subtitle"></div>
 
-  <h2>Auswahl</h2>
-  <div id="info">Sportarten oder Nationen anklicken.</div>
+  <h2>Selection</h2>
+  <div id="info">Click sports or nations.</div>
   <div class="row">
-    <button class="act" id="clear">Auswahl löschen</button>
-    <button class="act" id="labels">Alle Nationen beschriften: an</button>
-    <button class="act" id="export">SVG speichern</button>
+    <button class="act" id="clear">Clear selection</button>
+    <button class="act" id="labels">Label all nations: on</button>
+    <button class="act" id="export">Save SVG</button>
   </div>
 
-  <h2>Sportarten</h2>
+  <h2>Sports</h2>
   <div class="chips" id="sports"></div>
 
-  <h2>Nationen</h2>
+  <h2>Nations</h2>
   <div class="chips" id="nations"></div>
 
-  <h2>Lesen</h2>
+  <h2>How to read</h2>
   <div class="sub">
-    Höhe = Anzahl Sportarten im Inhalt (oben wenige, unten viele).<br>
-    Sportart-Namen stehen am Attributbegriff μ(m), Nationen am Gegenstandsbegriff γ(g).<br>
-    Sportarten markieren: alle Begriffe, deren Inhalt die Auswahl B enthält (unter (B′, B″)).<br>
-    Nationen markieren: alle Begriffe, deren Umfang die Auswahl A enthält (über (A″, A′)).
+    Height = number of sports in the intent (few at the top, many at the bottom).<br>
+    Reduced labelling: sports at their attribute concept μ(m), nations at their object concept γ(g).<br>
+    Selecting sports B marks every concept whose intent contains B (below (B′, B″)).<br>
+    Selecting nations A marks every concept whose extent contains A (above (A″, A′)).
   </div>
 </aside>
 <main>
   <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
   <div id="tip"></div>
-  <div class="hint">Scrollen = Zoom · Ziehen = Verschieben · Knoten anklicken = Begriff anzeigen</div>
+  <div class="hint">Scroll = zoom · drag = pan · click a node = show concept</div>
 </main>
 
 <script>
@@ -92,7 +92,7 @@ const allSports = DATA.sports.map(s => s.name);
 const allNations = DATA.nations.map(n => n.name);
 
 document.getElementById("subtitle").textContent =
-  `${DATA.title} · ${DATA.nodes.length} Begriffe · ${allNations.length} Nationen × ${allSports.length} Sportarten`;
+  `${DATA.title} · ${DATA.nodes.length} concepts · ${allNations.length} nations × ${allSports.length} sports`;
 
 // ---------- geometry
 const SX = 240, SY = 95, PAD = 80;
@@ -188,27 +188,27 @@ function update() {
     e.classList.toggle("hl", focus === null && on[a] && on[b]);
     e.classList.toggle("dim", active && !(on[a] && on[b])); });
 
-  let html = "Sportarten oder Nationen anklicken.";
+  let html = "Click sports or nations.";
   let key = null;
   if (focus !== null) {
     const n = DATA.nodes[focus];
-    html = `<b>Begriff</b><br>Umfang (${n.extent.length}): ${fmt(n.extent)}<br>Inhalt (${n.intent.length}): ${fmt(n.intent)}`;
+    html = `<b>Concept</b><br>Extent (${n.extent.length}): ${fmt(n.extent)}<br>Intent (${n.intent.length}): ${fmt(n.intent)}`;
     key = focus;
   } else if (B.length || A.length) {
     html = "";
     if (B.length) {
       const Bp = extentOf(B), Bpp = allSports.filter(m => Bp.every(g => conceptOfNation(g).intent.includes(m)));
       html += `<b>B</b> = ${fmt(B)}<br><b>B′</b> = ${fmt(Bp)} (${Bp.length})<br><b>B″</b> = ${fmt(Bpp)}` +
-        (Bpp.length > B.length ? " ← B ist nicht abgeschlossen" : " ← B ist abgeschlossen");
+        (Bpp.length > B.length ? " ← B is not closed" : " ← B is closed");
       key = DATA.nodes.findIndex(n => n.extent.length === Bp.length && subset(Bp, n.extent) && subset(n.extent, Bp));
     }
     if (A.length) {
       const Ap = intentOf(A), App = extentOf(Ap);
       html += (html ? "<br><br>" : "") + `<b>A</b> = ${fmt(A)}<br><b>A′</b> = ${fmt(Ap)}<br><b>A″</b> = ${fmt(App)} (${App.length})` +
-        (App.length > A.length ? " ← A ist nicht abgeschlossen" : " ← A ist abgeschlossen");
+        (App.length > A.length ? " ← A is not closed" : " ← A is closed");
       if (!B.length) key = DATA.nodes.findIndex(n => n.intent.length === Ap.length && subset(Ap, n.intent) && subset(n.intent, Ap));
     }
-    if (B.length && A.length) html += "<br><br>Markiert: Begriffe mit A ⊆ Umfang und B ⊆ Inhalt.";
+    if (B.length && A.length) html += "<br><br>Marked: concepts with A ⊆ extent and B ⊆ intent.";
   }
   if (key !== null && key >= 0) nodeEls[key].classList.add("focus");
   document.getElementById("info").innerHTML = html;
@@ -230,13 +230,13 @@ svg.addEventListener("click", () => { if (focus !== null) { focus = null; update
 document.getElementById("clear").onclick = () => { selS.clear(); selN.clear(); focus = null;
   document.querySelectorAll(".chip.on").forEach(c => c.classList.remove("on")); update(); };
 document.getElementById("labels").onclick = ev => { allLabels = !allLabels;
-  ev.target.textContent = "Alle Nationen beschriften: " + (allLabels ? "an" : "nur markierte"); update(); };
+  ev.target.textContent = "Label all nations: " + (allLabels ? "on" : "marked only"); update(); };
 
 // ---------- tooltip
 const tip = document.getElementById("tip");
 function showTip(ev, i) {
   const n = DATA.nodes[i], r = svg.parentElement.getBoundingClientRect();
-  tip.innerHTML = `<b>Umfang (${n.extent.length})</b>: ${fmt(n.extent)}<br><b>Inhalt (${n.intent.length})</b>: ${fmt(n.intent)}`;
+  tip.innerHTML = `<b>Extent (${n.extent.length})</b>: ${fmt(n.extent)}<br><b>Intent (${n.intent.length})</b>: ${fmt(n.intent)}`;
   tip.style.display = "block";
   tip.style.left = Math.min(ev.clientX - r.left + 12, r.width - 330) + "px";
   tip.style.top = (ev.clientY - r.top + 12) + "px";
