@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Begriffsverband Paris 2024</title>
+<style>
+  :root {
+    --bg: #fbfaf7; --fg: #1d1d1b; --muted: #8a877f; --line: #cfccc4;
+    --panel: #ffffff; --border: #e4e1da;
+    --g0: #2f6db5; --g1: #c2410c; --g2: #0f8a6a; --hl: #d9a400; --hlbg: #fff4cc;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1a1a19; --fg: #ecebe6; --muted: #8f8c84; --line: #47453f;
+      --panel: #232321; --border: #34332f; --hlbg: #4a3d0a; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.4 system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--fg);
+    display: grid; grid-template-columns: 300px 1fr; height: 100vh; }
+  aside { border-right: 1px solid var(--border); background: var(--panel); overflow-y: auto; padding: 14px; }
+  h1 { font-size: 16px; margin: 0 0 4px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 6px; }
+  .sub { color: var(--muted); font-size: 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 4px; }
+  .chip { border: 1px solid var(--border); background: transparent; color: var(--fg); border-radius: 999px;
+    padding: 2px 9px; font-size: 12px; cursor: pointer; }
+  .chip:hover { border-color: var(--muted); }
+  .chip.on { background: var(--hl); border-color: var(--hl); color: #1d1d1b; }
+  .gen { font-size: 11px; color: var(--muted); width: 100%; margin-top: 4px; }
+  .row { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
+  button.act { border: 1px solid var(--border); background: var(--bg); color: var(--fg); border-radius: 6px;
+    padding: 4px 10px; font-size: 12px; cursor: pointer; }
+  #info { background: var(--hlbg); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; min-height: 40px; }
+  #info b { font-family: ui-monospace, Menlo, monospace; }
+  main { position: relative; overflow: hidden; }
+  svg { width: 100%; height: 100%; cursor: grab; }
+  .edge { stroke: var(--line); stroke-width: 1.2; }
+  .edge.hl { stroke: var(--hl); stroke-width: 2.4; }
+  .node { fill: var(--panel); stroke: var(--muted); stroke-width: 1.2; }
+  .node.hl { fill: var(--hl); stroke: var(--hl); }
+  .node.focus { stroke: var(--fg); stroke-width: 3; }
+  .dim { opacity: .25; }
+  .alab { font-size: 13px; font-weight: 600; }
+  .olab { font-size: 12.5px; fill: var(--fg); }
+  .lab-hl { font-weight: 800; text-decoration: underline; }
+  #tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 6px; padding: 6px 8px; font-size: 12px; max-width: 320px; display: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+  .hint { position: absolute; right: 10px; bottom: 8px; font-size: 11px; color: var(--muted); }
+</style>
+</head>
+<body>
+<aside>
+  <h1>Begriffsverband Paris 2024</h1>
+  <div class="sub" id="subtitle"></div>
+
+  <h2>Auswahl</h2>
+  <div id="info">Sportarten oder Nationen anklicken.</div>
+  <div class="row">
+    <button class="act" id="clear">Auswahl löschen</button>
+    <button class="act" id="labels">Alle Nationen beschriften: an</button>
+    <button class="act" id="export">SVG speichern</button>
+  </div>
+
+  <h2>Sportarten</h2>
+  <div class="chips" id="sports"></div>
+
+  <h2>Nationen</h2>
+  <div class="chips" id="nations"></div>
+
+  <h2>Lesen</h2>
+  <div class="sub">
+    Höhe = Anzahl Sportarten im Inhalt (oben wenige, unten viele).<br>
+    Sportart-Namen stehen am Attributbegriff μ(m), Nationen am Gegenstandsbegriff γ(g).<br>
+    Sportarten markieren: alle Begriffe, deren Inhalt die Auswahl B enthält (unter (B′, B″)).<br>
+    Nationen markieren: alle Begriffe, deren Umfang die Auswahl A enthält (über (A″, A′)).
+  </div>
+</aside>
+<main>
+  <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
+  <div id="tip"></div>
+  <div class="hint">Scrollen = Zoom · Ziehen = Verschieben · Knoten anklicken = Begriff anzeigen</div>
+</main>
+
+<script>
+const DATA = {"title": "Paris 2024 – olympics_gold.cxt", "sports": [{"name": "Athletics", "gen": 0, "concept": 45, "vx": -0.275}, {"name": "Swimming", "gen": 0, "concept": 44, "vx": -1.0}, {"name": "Wrestling", "gen": 0, "concept": 38, "vx": -0.1}, {"name": "Fencing", "gen": 0, "concept": 42, "vx": -0.625}, {"name": "Gymnastics", "gen": 0, "concept": 41, "vx": -0.975}, {"name": "Shooting", "gen": 0, "concept": 37, "vx": -0.674}, {"name": "Judo", "gen": 1, "concept": 40, "vx": 0.45}, {"name": "Taekwondo", "gen": 1, "concept": 39, "vx": -0.252}, {"name": "Triathlon", "gen": 1, "concept": 27, "vx": -0.059}, {"name": "Breaking", "gen": 2, "concept": 20, "vx": 1.0}, {"name": "Skateboarding", "gen": 2, "concept": 18, "vx": 0.975}, {"name": "Sport climbing", "gen": 2, "concept": 14, "vx": 1.0}, {"name": "Surfing", "gen": 2, "concept": 10, "vx": 0.863}], "nations": [{"name": "United States", "concept": 1}, {"name": "China", "concept": 23}, {"name": "Great Britain", "concept": 2}, {"name": "France", "concept": 3}, {"name": "Australia", "concept": 4}, {"name": "Japan", "concept": 5}, {"name": "Italy", "concept": 6}, {"name": "Netherlands", "concept": 43}, {"name": "Germany", "concept": 13}, {"name": "South Korea", "concept": 7}, {"name": "Canada", "concept": 8}, {"name": "New Zealand", "concept": 45}, {"name": "Brazil", "concept": 31}, {"name": "Hungary", "concept": 16}, {"name": "Spain", "concept": 45}, {"name": "Uzbekistan", "concept": 9}, {"name": "Iran", "concept": 22}, {"name": "Ukraine", "concept": 25}, {"name": "Sweden", "concept": 43}, {"name": "Kenya", "concept": 45}, {"name": "Belgium", "concept": 45}, {"name": "Poland", "concept": 14}, {"name": "Romania", "concept": 44}, {"name": "Denmark", "concept": 46}, {"name": "Cuba", "concept": 38}], "genNames": {"0": "seit 1896", "1": "1964 / 2000", "2": "2020 / 2024"}, "nodes": [{"x": 0.3266, "y": 13, "extent": [], "intent": ["Athletics", "Swimming", "Wrestling", "Fencing", "Gymnastics", "Shooting", "Judo", "Taekwondo", "Triathlon", "Breaking", "Skateboarding", "Sport climbing", "Surfing"]}, {"x": -2.787, "y": 7, "extent": ["United States"], "intent": ["Athletics", "Swimming", "Wrestling", "Fencing", "Gymnastics", "Shooting", "Surfing"]}, {"x": -1.9839, "y": 6, "extent": ["Great Britain"], "intent": ["Athletics", "Swimming", "Gymnastics", "Shooting", "Triathlon", "Sport climbing"]}, {"x": -0.6234, "y": 6, "extent": ["France"], "intent": ["Swimming", "Fencing", "Judo", "Taekwondo", "Triathlon", "Surfing"]}, {"x": -0.3179, "y": 3, "extent": ["Australia"], "intent": ["Athletics", "Swimming", "Skateboarding"]}, {"x": 0.4492, "y": 7, "extent": ["Japan"], "intent": ["Athletics", "Wrestling", "Fencing", "Gymnastics", "Judo", "Breaking", "Skateboarding"]}, {"x": -2.8246, "y": 5, "extent": ["Italy"], "intent": ["Swimming", "Fencing", "Gymnastics", "Shooting", "Judo"]}, {"x": -1.5684, "y": 3, "extent": ["South Korea"], "intent": ["Fencing", "Shooting", "Taekwondo"]}, {"x": 0.1749, "y": 4, "extent": ["Canada"], "intent": ["Athletics", "Swimming", "Judo", "Breaking"]}, {"x": 0.0807, "y": 3, "extent": ["Uzbekistan"], "intent": ["Wrestling", "Judo", "Taekwondo"]}, {"x": -0.7799, "y": 3, "extent": ["France", "United States"], "intent": ["Swimming", "Fencing", "Surfing"]}, {"x": -1.9754, "y": 4, "extent": ["Japan", "United States"], "intent": ["Athletics", "Wrestling", "Fencing", "Gymnastics"]}, {"x": -3.2746, "y": 4, "extent": ["Italy", "United States"], "intent": ["Swimming", "Fencing", "Gymnastics", "Shooting"]}, {"x": -2.3097, "y": 4, "extent": ["Germany", "Great Britain"], "intent": ["Athletics", "Swimming", "Gymnastics", "Triathlon"]}, {"x": 0.8776, "y": 1, "extent": ["Great Britain", "Poland"], "intent": ["Sport climbing"]}, {"x": -1.1926, "y": 3, "extent": ["France", "Italy"], "intent": ["Swimming", "Fencing", "Judo"]}, {"x": -1.8942, "y": 3, "extent": ["France", "Hungary"], "intent": ["Swimming", "Fencing", "Taekwondo"]}, {"x": 0.3459, "y": 2, "extent": ["France", "Uzbekistan"], "intent": ["Judo", "Taekwondo"]}, {"x": 0.7459, "y": 2, "extent": ["Australia", "Japan"], "intent": ["Athletics", "Skateboarding"]}, {"x": -0.9926, "y": 3, "extent": ["Italy", "Japan"], "intent": ["Fencing", "Gymnastics", "Judo"]}, {"x": 1.1573, "y": 3, "extent": ["Canada", "Japan"], "intent": ["Athletics", "Judo", "Breaking"]}, {"x": 0.5459, "y": 2, "extent": ["Japan", "Uzbekistan"], "intent": ["Wrestling", "Judo"]}, {"x": -0.0541, "y": 2, "extent": ["Iran", "Uzbekistan"], "intent": ["Wrestling", "Taekwondo"]}, {"x": -2.9246, "y": 4, "extent": ["China", "Great Britain", "United States"], "intent": ["Athletics", "Swimming", "Gymnastics", "Shooting"]}, {"x": -1.8541, "y": 2, "extent": ["Italy", "Japan", "United States"], "intent": ["Fencing", "Gymnastics"]}, {"x": -0.8541, "y": 2, "extent": ["Japan", "Ukraine", "United States"], "intent": ["Athletics", "Fencing"]}, {"x": -1.6541, "y": 2, "extent": ["Italy", "South Korea", "United States"], "intent": ["Fencing", "Shooting"]}, {"x": -1.0541, "y": 2, "extent": ["France", "Germany", "Great Britain"], "intent": ["Swimming", "Triathlon"]}, {"x": 0.1459, "y": 2, "extent": ["France", "Italy", "Japan"], "intent": ["Fencing", "Judo"]}, {"x": -0.4541, "y": 2, "extent": ["Canada", "France", "Italy"], "intent": ["Swimming", "Judo"]}, {"x": -0.6541, "y": 2, "extent": ["France", "Hungary", "South Korea"], "intent": ["Fencing", "Taekwondo"]}, {"x": -0.2541, "y": 2, "extent": ["Brazil", "Italy", "Japan"], "intent": ["Gymnastics", "Judo"]}, {"x": -2.6671, "y": 3, "extent": ["China", "Great Britain", "Italy", "United States"], "intent": ["Swimming", "Gymnastics", "Shooting"]}, {"x": -2.268, "y": 3, "extent": ["China", "Germany", "Great Britain", "United States"], "intent": ["Athletics", "Swimming", "Gymnastics"]}, {"x": -2.0541, "y": 2, "extent": ["France", "Hungary", "Italy", "United States"], "intent": ["Swimming", "Fencing"]}, {"x": -1.2541, "y": 2, "extent": ["China", "Germany", "Great Britain", "Japan", "United States"], "intent": ["Athletics", "Gymnastics"]}, {"x": -2.4044, "y": 2, "extent": ["China", "Germany", "Great Britain", "Italy", "United States"], "intent": ["Swimming", "Gymnastics"]}, {"x": -0.7224, "y": 1, "extent": ["China", "Great Britain", "Italy", "South Korea", "United States"], "intent": ["Shooting"]}, {"x": 0.0776, "y": 1, "extent": ["Cuba", "Iran", "Japan", "United States", "Uzbekistan"], "intent": ["Wrestling"]}, {"x": -0.1224, "y": 1, "extent": ["France", "Hungary", "Iran", "South Korea", "Uzbekistan"], "intent": ["Taekwondo"]}, {"x": 0.3276, "y": 1, "extent": ["Brazil", "Canada", "France", "Italy", "Japan", "Uzbekistan"], "intent": ["Judo"]}, {"x": -0.9224, "y": 1, "extent": ["Brazil", "China", "Germany", "Great Britain", "Italy", "Japan", "United States"], "intent": ["Gymnastics"]}, {"x": -0.5224, "y": 1, "extent": ["France", "Hungary", "Italy", "Japan", "South Korea", "Ukraine", "United States"], "intent": ["Fencing"]}, {"x": -1.4541, "y": 2, "extent": ["Australia", "Canada", "China", "Germany", "Great Britain", "Netherlands", "Sweden", "United States"], "intent": ["Athletics", "Swimming"]}, {"x": -1.1224, "y": 1, "extent": ["Australia", "Canada", "China", "France", "Germany", "Great Britain", "Hungary", "Italy", "Netherlands", "Romania", "Sweden", "United States"], "intent": ["Swimming"]}, {"x": -0.3224, "y": 1, "extent": ["Australia", "Belgium", "Canada", "China", "Germany", "Great Britain", "Japan", "Kenya", "Netherlands", "New Zealand", "Spain", "Sweden", "Ukraine", "United States"], "intent": ["Athletics"]}, {"x": 0.0, "y": 0, "extent": ["Australia", "Belgium", "Brazil", "Canada", "China", "Cuba", "Denmark", "France", "Germany", "Great Britain", "Hungary", "Iran", "Italy", "Japan", "Kenya", "Netherlands", "New Zealand", "Poland", "Romania", "South Korea", "Spain", "Sweden", "Ukraine", "United States", "Uzbekistan"], "intent": []}], "edges": [[1, 0], [2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 1], [10, 3], [11, 1], [11, 5], [12, 1], [12, 6], [13, 2], [14, 2], [15, 3], [15, 6], [16, 3], [17, 3], [17, 9], [18, 4], [18, 5], [19, 5], [19, 6], [20, 5], [20, 8], [21, 5], [21, 9], [22, 9], [23, 1], [23, 2], [24, 11], [24, 12], [24, 19], [25, 11], [26, 12], [26, 7], [27, 13], [27, 3], [28, 15], [28, 19], [29, 15], [29, 8], [30, 16], [30, 7], [31, 19], [32, 23], [32, 12], [33, 23], [33, 13], [34, 10], [34, 12], [34, 15], [34, 16], [35, 33], [35, 11], [36, 32], [36, 33], [37, 32], [37, 26], [38, 11], [38, 21], [38, 22], [39, 30], [39, 17], [39, 22], [40, 28], [40, 29], [40, 31], [40, 17], [40, 20], [40, 21], [41, 35], [41, 36], [41, 24], [41, 31], [42, 34], [42, 24], [42, 25], [42, 26], [42, 28], [42, 30], [43, 33], [43, 4], [43, 8], [44, 43], [44, 36], [44, 34], [44, 27], [44, 29], [45, 43], [45, 35], [45, 25], [45, 18], [45, 20], [46, 45], [46, 44], [46, 41], [46, 42], [46, 40], [46, 37], [46, 38], [46, 39], [46, 14]]};
+const NS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("svg");
+const genColor = g => `var(--g${g})`;
+const sportGen = Object.fromEntries(DATA.sports.map(s => [s.name, s.gen]));
+const allSports = DATA.sports.map(s => s.name);
+const allNations = DATA.nations.map(n => n.name);
+
+document.getElementById("subtitle").textContent =
+  `${DATA.title} · ${DATA.nodes.length} Begriffe · ${allNations.length} Nationen × ${allSports.length} Sportarten`;
+
+// ---------- geometry
+const SX = 240, SY = 95, PAD = 80;
+const xs = DATA.nodes.map(n => n.x), ys = DATA.nodes.map(n => n.y);
+const minX = Math.min(...xs), maxX = Math.max(...xs), maxY = Math.max(...ys);
+const P = DATA.nodes.map(n => [(n.x - minX) * SX + PAD, n.y * SY + PAD]);
+const W = (maxX - minX) * SX + 2 * PAD, H = maxY * SY + 2 * PAD;
+let view = { x: 0, y: 0, w: W, h: H };
+const setView = () => svg.setAttribute("viewBox", `${view.x} ${view.y} ${view.w} ${view.h}`);
+setView();
+
+function el(tag, attrs, parent) {
+  const e = document.createElementNS(NS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]);
+  (parent || svg).appendChild(e);
+  return e;
+}
+
+const gEdges = el("g", {}), gNodes = el("g", {}), gLabels = el("g", {});
+const edgeEls = DATA.edges.map(([a, b]) =>
+  el("line", { x1: P[a][0], y1: P[a][1], x2: P[b][0], y2: P[b][1], class: "edge" }, gEdges));
+const nodeEls = DATA.nodes.map((n, i) => {
+  const c = el("circle", { cx: P[i][0], cy: P[i][1], r: 7, class: "node" }, gNodes);
+  c.addEventListener("mousemove", ev => showTip(ev, i));
+  c.addEventListener("mouseleave", hideTip);
+  c.addEventListener("click", ev => { ev.stopPropagation(); focusConcept(i); });
+  return c;
+});
+
+// reduced labelling
+const attrAt = {}, objAt = {};
+DATA.sports.forEach(s => (attrAt[s.concept] ||= []).push(s.name));
+DATA.nations.forEach(n => (objAt[n.concept] ||= []).push(n.name));
+const labelEls = [];
+for (const i in attrAt) {
+  attrAt[i].forEach((name, k) => {
+    const lx = P[i][0] + 4, ly = P[i][1] - 10 - 15 * k;
+    const t = el("text", { x: lx, y: ly, "text-anchor": "start", class: "alab",
+      transform: `rotate(-30 ${lx} ${ly})`, fill: genColor(sportGen[name]) }, gLabels);
+    t.textContent = name; t.dataset.name = name; t.dataset.kind = "s"; labelEls.push(t);
+  });
+}
+for (const i in objAt) {
+  const lx = P[i][0] + 4, ly = P[i][1] + 16;
+  const t = el("text", { x: lx, y: ly, "text-anchor": "start", class: "olab",
+    transform: `rotate(30 ${lx} ${ly})` }, gLabels);
+  t.textContent = objAt[i].join(", "); t.dataset.names = objAt[i].join("|"); t.dataset.kind = "n";
+  t.dataset.concept = i; labelEls.push(t);
+}
+
+// ---------- selection & highlighting
+const selS = new Set(), selN = new Set();
+let focus = null, allLabels = true;
+
+function chips(id, list, set, gen) {
+  const box = document.getElementById(id);
+  let lastGen = null;
+  list.forEach(name => {
+    if (gen && gen(name) !== lastGen) {
+      lastGen = gen(name);
+      const d = document.createElement("div"); d.className = "gen";
+      d.textContent = DATA.genNames[lastGen]; d.style.color = genColor(lastGen); box.appendChild(d);
+    }
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = name;
+    if (gen) b.style.borderColor = genColor(gen(name));
+    b.onclick = () => { set.has(name) ? set.delete(name) : set.add(name); focus = null;
+      b.classList.toggle("on"); update(); };
+    box.appendChild(b);
+  });
+}
+const sortedSports = [...allSports].sort((a, b) => sportGen[a] - sportGen[b]);
+chips("sports", sortedSports, selS, n => sportGen[n]);
+chips("nations", [...allNations].sort(), selN);
+
+const fmt = arr => arr.length ? "{" + arr.join(", ") + "}" : "∅";
+const subset = (a, b) => a.every(x => b.includes(x));
+const intentOf = nations => allSports.filter(m => DATA.nodes.some(n => n.intent.includes(m)) &&
+  nations.every(g => conceptOfNation(g).intent.includes(m)));
+const conceptOfNation = g => DATA.nodes[DATA.nations.find(n => n.name === g).concept];
+const extentOf = sports => allNations.filter(g => subset(sports, conceptOfNation(g).intent));
+
+function update() {
+  const B = [...selS], A = [...selN];
+  const active = B.length || A.length || focus !== null;
+  const on = DATA.nodes.map((n, i) => {
+    if (focus !== null) return i === focus;
+    return active && subset(B, n.intent) && subset(A, n.extent);
+  });
+  nodeEls.forEach((c, i) => { c.classList.toggle("hl", on[i]); c.classList.toggle("dim", active && !on[i]);
+    c.classList.remove("focus"); });
+  edgeEls.forEach((e, k) => { const [a, b] = DATA.edges[k];
+    e.classList.toggle("hl", focus === null && on[a] && on[b]);
+    e.classList.toggle("dim", active && !(on[a] && on[b])); });
+
+  let html = "Sportarten oder Nationen anklicken.";
+  let key = null;
+  if (focus !== null) {
+    const n = DATA.nodes[focus];
+    html = `<b>Begriff</b><br>Umfang (${n.extent.length}): ${fmt(n.extent)}<br>Inhalt (${n.intent.length}): ${fmt(n.intent)}`;
+    key = focus;
+  } else if (B.length || A.length) {
+    html = "";
+    if (B.length) {
+      const Bp = extentOf(B), Bpp = allSports.filter(m => Bp.every(g => conceptOfNation(g).intent.includes(m)));
+      html += `<b>B</b> = ${fmt(B)}<br><b>B′</b> = ${fmt(Bp)} (${Bp.length})<br><b>B″</b> = ${fmt(Bpp)}` +
+        (Bpp.length > B.length ? " ← B ist nicht abgeschlossen" : " ← B ist abgeschlossen");
+      key = DATA.nodes.findIndex(n => n.extent.length === Bp.length && subset(Bp, n.extent) && subset(n.extent, Bp));
+    }
+    if (A.length) {
+      const Ap = intentOf(A), App = extentOf(Ap);
+      html += (html ? "<br><br>" : "") + `<b>A</b> = ${fmt(A)}<br><b>A′</b> = ${fmt(Ap)}<br><b>A″</b> = ${fmt(App)} (${App.length})` +
+        (App.length > A.length ? " ← A ist nicht abgeschlossen" : " ← A ist abgeschlossen");
+      if (!B.length) key = DATA.nodes.findIndex(n => n.intent.length === Ap.length && subset(Ap, n.intent) && subset(n.intent, Ap));
+    }
+    if (B.length && A.length) html += "<br><br>Markiert: Begriffe mit A ⊆ Umfang und B ⊆ Inhalt.";
+  }
+  if (key !== null && key >= 0) nodeEls[key].classList.add("focus");
+  document.getElementById("info").innerHTML = html;
+
+  labelEls.forEach(t => {
+    const names = t.dataset.kind === "s" ? [t.dataset.name] : t.dataset.names.split("|");
+    const sel = names.some(n => selS.has(n) || selN.has(n));
+    t.classList.toggle("lab-hl", sel);
+    if (t.dataset.kind === "n") t.style.display = allLabels || on[+t.dataset.concept] ? "" : "none";
+    t.classList.toggle("dim", active && !sel && t.dataset.kind === "n" && !on[+t.dataset.concept]);
+  });
+}
+
+function focusConcept(i) {
+  selS.clear(); selN.clear(); document.querySelectorAll(".chip.on").forEach(c => c.classList.remove("on"));
+  focus = focus === i ? null : i; update();
+}
+svg.addEventListener("click", () => { if (focus !== null) { focus = null; update(); } });
+document.getElementById("clear").onclick = () => { selS.clear(); selN.clear(); focus = null;
+  document.querySelectorAll(".chip.on").forEach(c => c.classList.remove("on")); update(); };
+document.getElementById("labels").onclick = ev => { allLabels = !allLabels;
+  ev.target.textContent = "Alle Nationen beschriften: " + (allLabels ? "an" : "nur markierte"); update(); };
+
+// ---------- tooltip
+const tip = document.getElementById("tip");
+function showTip(ev, i) {
+  const n = DATA.nodes[i], r = svg.parentElement.getBoundingClientRect();
+  tip.innerHTML = `<b>Umfang (${n.extent.length})</b>: ${fmt(n.extent)}<br><b>Inhalt (${n.intent.length})</b>: ${fmt(n.intent)}`;
+  tip.style.display = "block";
+  tip.style.left = Math.min(ev.clientX - r.left + 12, r.width - 330) + "px";
+  tip.style.top = (ev.clientY - r.top + 12) + "px";
+}
+function hideTip() { tip.style.display = "none"; }
+
+// ---------- zoom & pan
+svg.addEventListener("wheel", ev => {
+  ev.preventDefault();
+  const r = svg.getBoundingClientRect(), f = ev.deltaY > 0 ? 1.12 : 1 / 1.12;
+  const mx = view.x + (ev.clientX - r.left) / r.width * view.w, my = view.y + (ev.clientY - r.top) / r.height * view.h;
+  view = { x: mx - (mx - view.x) * f, y: my - (my - view.y) * f, w: view.w * f, h: view.h * f }; setView();
+}, { passive: false });
+let drag = null;
+svg.addEventListener("mousedown", ev => { drag = { x: ev.clientX, y: ev.clientY, v: { ...view } }; });
+window.addEventListener("mousemove", ev => { if (!drag) return; const r = svg.getBoundingClientRect();
+  view.x = drag.v.x - (ev.clientX - drag.x) / r.width * view.w;
+  view.y = drag.v.y - (ev.clientY - drag.y) / r.height * view.h; setView(); });
+window.addEventListener("mouseup", () => { drag = null; });
+
+// ---------- export current view as standalone SVG (for the report)
+document.getElementById("export").onclick = () => {
+  const clone = svg.cloneNode(true);
+  clone.setAttribute("viewBox", `0 0 ${W} ${H}`); clone.setAttribute("width", W); clone.setAttribute("height", H);
+  const css = [...document.styleSheets[0].cssRules].map(r => r.cssText).join("\n")
+    .replace(/var\(--(\w+)\)/g, (_, v) => getComputedStyle(document.documentElement).getPropertyValue("--" + v).trim());
+  const st = document.createElementNS(NS, "style"); st.textContent = css; clone.insertBefore(st, clone.firstChild);
+  clone.querySelectorAll("[fill^='var']").forEach(e => e.setAttribute("fill",
+    getComputedStyle(document.documentElement).getPropertyValue(e.getAttribute("fill").slice(4, -1)).trim()));
+  const bg = document.createElementNS(NS, "rect"); bg.setAttribute("width", W); bg.setAttribute("height", H);
+  bg.setAttribute("fill", "#ffffff"); clone.insertBefore(bg, st.nextSibling);
+  const blob = new Blob([new XMLSerializer().serializeToString(clone)], { type: "image/svg+xml" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "lattice.svg"; a.click();
+};
+
+update();
+</script>
+</body>
+</html>

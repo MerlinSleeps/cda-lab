@@ -12,6 +12,7 @@ Deadline Sheet 1: **26.11.2026**
 data/raw/            raw medal data + source/download date (README there)
 src/build_context.py raw CSV -> olympics.cxt (+ --gold-only for step 6)
 src/fca_tools.py     derivation, closure, NextClosure trace, lattice, twins
+src/lattice_view.py  interactive additive line diagram (HTML), highlight sports/nations, SVG export
 figures/             line diagram(s)
 handrechnung/        photo/scan of the NextClosure hand computation (step 3)
 report.md            the report (max. 5 pages + appendix)
@@ -36,6 +37,8 @@ macOS `brew install graphviz`, Windows `winget install Graphviz.Graphviz` (then 
 python src/build_context.py              # -> olympics.cxt + stats for step 1
 python src/build_context.py --gold-only  # -> olympics_gold.cxt for step 6
 python src/fca_tools.py                  # number of concepts, medal twins
+python src/lattice_view.py               # -> figures/lattice.html (interactive diagram)
+python src/lattice_view.py olympics_gold.cxt  # -> figures/lattice_gold.html
 python -m pytest -q                      # helper self-test
 ```
 

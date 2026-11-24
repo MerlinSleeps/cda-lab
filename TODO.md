@@ -22,7 +22,8 @@ Legende: 🧠 = selbst verstehen/entscheiden (Kolloquium!) · ⚙️ = Code/Rech
 - [ ] 🧠 Handrechnung auf 5 Sportarten (Papier), erste 3 Schritte mit Begründung; mit `next_closure(..., trace=True)` prüfen; Foto nach `handrechnung/`
 - [ ] 🧠 Anzahl Begriffe vs. 2^|M|; Kontext mit 2^n Begriffen (Kontranominalskala); warum Sportdaten weit darunter bleiben
 - [x] ⚙️ Liniendiagramm gezeichnet (`figures/lattice.pdf`)
-- [ ] ⚙️ Layout lesbarer machen (Graphviz-Standard ist unübersichtlich)
+- [x] ⚙️ Interaktives additives Liniendiagramm (`figures/lattice.html`, `lattice_gold.html`) mit Hervorhebung und SVG-Export
+- [ ] 🧠 Je Befund eine markierte Ansicht als SVG exportieren und in den Bericht einbinden
 - [ ] 🧠 Schritt 4: ≥ 3 Aussagen aus dem Diagramm ablesen (Unterordnung, unvergleichbar, Lage der Top 5)
 - [ ] ⚙️ Schritt 5: Medaillen-Zwillinge, reduzierbare Sportarten finden (Funktion für Reduzierbarkeit ergänzen)
 - [ ] 🧠 Schritt 5: Bedeutung von Reduzierbarkeit erklären, Form des reduzierten Verbands prüfen
