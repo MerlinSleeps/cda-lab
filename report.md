@@ -115,9 +115,15 @@ The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an
 
 ![Sub-context](handrechnung/hand_01_cross_table.jpg)
 
-![Steps 1–4](handrechnung/hand_02_steps_1-4.jpg)
+![Start and step 1](handrechnung/hand_02_steps_1-2.jpg)
 
-![Steps 5–10](handrechnung/hand_03_steps_5-10.jpg)
+![Steps 2–3](handrechnung/hand_03_steps_2-3.jpg)
+
+![Steps 4–7](handrechnung/hand_04_steps_4-7.jpg)
+
+![Steps 8–9](handrechnung/hand_05_steps_8-9.jpg)
+
+![Intents in lectic order](handrechnung/hand_06_intents.jpg)
 
 ### D. Gold-only lattice
 

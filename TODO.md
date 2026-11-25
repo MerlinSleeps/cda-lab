@@ -4,14 +4,17 @@ Legend: 🧠 = understand/decide yourself (colloquium!) · ⚙️ = code/computa
 
 ## Now – before submission
 1. - [ ] 🧠 **Clean up the hand computation** and replace the photos in `handrechnung/` (keep the file names `hand_01…`, `hand_02…`, `hand_03…`):
-   - [ ] Start: write `∅″ = ∅ → intent 1`
-   - [ ] Step 1: replace the "Ath ≤ Surf" notes by `✗ Ath new < 5` (≤ means something else in the lattice)
-   - [ ] Step 2, line i = 1: `({Swim} ∩ ∅) ∪ {Ath} = {Ath}, {Ath}″ = {Ath} → ✓ nothing new < 1` (instead of {Ath, Swim}″)
-   - [ ] Step 4, i = 4: `✗ Swim new < 4`
-   - [ ] A = {1,3}: i = 5 and i = 4 `✗ (2 new)`; i = 2: `{1,2}″ = {1,2}` (no 3!) `✓`
-   - [ ] A = {1,2,4}: i = 5 `✗ (3 new < 5)`, i = 3 `✓`
-   - [ ] A = {1,2,3}: i = 5 `✗ (4 new < 5)`, i = 4 `✓ (only 5 new, 5 > 4)`, then `A = M → stop`
-   - [ ] List of the 10 intents with extent sizes (25, 14, 19, 4, 5, 12, 3, 5, 4, 2)
+   - [x] Start: write `∅″ = ∅ → intent 1`
+   - [x] Step 1: replace the "Ath ≤ Surf" notes by `✗ Ath new < 5` (≤ means something else in the lattice)
+   - [x] Step 2, line i = 1: `({Swim} ∩ ∅) ∪ {Ath} = {Ath}, {Ath}″ = {Ath} → ✓ nothing new < 1` (instead of {Ath, Swim}″)
+   - [x] Step 4, i = 4: `✗ Swim new < 4`
+   - [x] A = {1,3}: i = 5 and i = 4 `✗ (2 new)`; i = 2: `{1,2}″ = {1,2}` (no 3!) `✓`
+   - [x] A = {1,2,4}: i = 5 `✗ (3 new < 5)`, i = 3 `✓`
+   - [x] A = {1,2,3}: i = 5 `✗ (4 new < 5)`, i = 4 `✓ (only 5 new, 5 > 4)`, then `A = M → stop`
+   - [x] List of the 10 intents with extent sizes (25, 14, 19, 4, 5, 12, 3, 5, 4, 2)
+   - [ ] Fix "Surf" → "Swim": step 7 (intent 8 = {Ath, Swim, Break}) and list entries 8, 9, 10
+   - [ ] Step 1, i = 3: "1 new < 3"; add "→ intent 2 / 3 / 4" after the accepts in steps 1–3
+   - [ ] Replace the corrected photos (`hand_02` … `hand_06`), re-export
 2. - [ ] 🧠 Final read of `report.md` (main text is exactly 5 pages – do not make it longer), own wording where wanted
 3. - [ ] ⚙️ Re-export: `python src/export_report.py` (needs `pip install markdown playwright` + `playwright install chromium`), check: main text ≤ 5 pages
 4. - [ ] 🧠 `AI_LOG.md`: fill the two `_…_` fields (own spot-checks of the data, own final edits)
