@@ -10,9 +10,19 @@
 
 **Context.** K = (G, M, I) with G = the 25 nations with the most medals (no tie at the cut: ranks 23–25 have 9 medals, the next nations 8), M = 13 sports, and *g I m* ⇔ nation *g* won at least one medal in sport *m*.
 
-**Choice of sports.** The 13 sports form three generations of the Olympic programme: *since 1896* – athletics, swimming, wrestling, fencing, gymnastics, shooting; *added 1964/2000* – judo (Japan), taekwondo (Korea), triathlon; *added 2020/2024* – breaking, skateboarding, sport climbing, surfing. A first selection of 14 broad sports (cycling, rowing, canoeing, boxing, …) gave 269 concepts and an unreadable diagram (Fig. 01); the generation design keeps the diagram manageable (125 concepts) and gives the analysis a theme the medal table does not have. Judo and taekwondo are grouped by *origin*, not by who wins them – grouping by dominance would be circular. Rowing was left out because it entered only in 1900; team sports and further individual sports were left out to keep the lattice readable.
+**Choice of sports.** The 13 sports were chosen to vary along two axes: *when* they entered the Olympic programme and *where* they come from culturally.
+
+| Generation | Sports | Cultural origin |
+|---|---|---|
+| since 1896 | athletics, swimming, wrestling, fencing, gymnastics, shooting | European tradition (ancient Greece; modern rules from Britain, Italy/France, Germany) |
+| added 1964 / 2000 | judo, taekwondo, triathlon | Japan, Korea, United States |
+| added 2020 / 2024 | breaking, skateboarding, sport climbing, surfing | US street and youth culture, European climbing, Polynesian/Hawaiian surfing |
+
+A first selection of 14 broad sports (cycling, rowing, canoeing, boxing, …) gave 269 concepts and an unreadable diagram (Fig. 01); the generation design keeps the diagram manageable (125 concepts) and gives the analysis a theme the medal table does not have. Judo and taekwondo are grouped by *origin*, not by who wins them – grouping by dominance would be circular. Rowing was left out because it entered only in 1900; team sports and further individual sports were left out to keep the lattice readable.
 
 **Shape of the table.** 120 of 325 cells are crossed (**36.9 %**). The nation with medals in the most sports is the **United States** (12 of 13, all but judo); the sport with the most nations is **athletics** (19 of 25). At the other end, Kenya medals only in athletics, and Iran, Denmark, Cuba and Romania in two sports each.
+
+**What a cross means.** A cross says only that the nation reached the podium at least once in that sport – one bronze counts exactly as much as ten golds, and an empty cell means no medal, not "no athletes".
 
 **What is lost.** A cross records *whether*, not *how much*. The US won 28 swimming medals, Romania 2 – same cross. Iran won 12 medals in wrestling and taekwondo, Denmark 2 – yet both rows are identical (see §5).
 
@@ -52,7 +62,7 @@ The lattice has **125 concepts**, against the upper bound 2^|M| = 2^13 = 8192 (1
 
 ## 4. Reading the picture
 
-The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an additive layout: height = number of sports, classic sports pull left, new sports right.
+The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an additive layout: height = number of sports, classic sports pull left, new sports right. μ(m) = (m′, m″) is the *attribute concept* of sport m – the highest node carrying the label m; its extent is every nation with a medal in m. If μ(m₁) lies below μ(m₂), every m₁-nation is also an m₂-nation (m₁ → m₂). γ(g) = (g″, g′) is the *object concept* of nation g – the lowest node labelled g.
 
 ![Fig. 04 – concept lattice of K (125 concepts), reduced labelling, additive layout](figures/04_additive_spread.png)
 
@@ -68,6 +78,8 @@ The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an
 
 **Same shape.** The reduced context (17 nations × 13 sports) has again 125 concepts; its lattice is isomorphic to the original.
 
+**What this says.** The redundancy sits entirely on the side of the nations, not the sports. Every sport has its own set of medal nations (no sport is reducible, 72 of 78 pairs incomparable). Large delegations such as the US, China, France or Japan medal in many sports and carry the structure; nations with a narrow profile *within our selection* – 7 of the 8 removed nations medal in at most 3 of the 13 sports – have rows that are already contained in larger ones and add no new concept. The Netherlands show that this is about the profile, not the size: 34 medals, but most of them in cycling and rowing, which are not in M.
+
 ## 6. Answer
 
 ![Findings F1–F4, marked in the line diagram](figures/11_findings_panel.png)
@@ -75,11 +87,13 @@ The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an
 | # | Finding | Concept | Gold only? |
 |---|---|---|---|
 | F1 | **New sports are won by athletics nations.** Only 9 of 25 nations medal in breaking, skateboarding, climbing or surfing – all of them also in athletics. | μ(new sport) ≤ μ(Athletics) | **Partly.** Breaking and skateboarding still imply athletics; climbing (Poland, GB) and surfing do not (Fig. 10). |
-| F2 | **Judo + wrestling is an East-Asian/Central-Asian profile.** | ({China, Japan, Uzbekistan}, {Judo, Wrestling}) | **Yes.** {Japan, Uzbekistan}. |
+| F2 | **Grappling profile.** Judo and wrestling share one idea – unarmed combat that brings the opponent to the ground by grips, throws and shifting body weight instead of punches or kicks (as in Japanese sumo). Only China, Japan and Uzbekistan medal in both; Japan is the only one of them without a medal in the striking sport taekwondo. | ({China, Japan, Uzbekistan}, {Judo, Wrestling}) | **Yes.** {Japan, Uzbekistan}. |
 | F3 | **Medal twins.** Iran (rank 17 by medals), Denmark (24) and Cuba (25) share one profile: wrestling and taekwondo only. | γ(Iran) = ({US, China, Uzbekistan, Iran, Denmark, Cuba}, {Wrestling, Taekwondo}) | **No.** Denmark has no gold in these sports, Cuba only in wrestling – it is a *medal*, not a *gold* profile. |
 | F4 | **Japan's profile is unique.** No other nation, not even the US, medals in all of Japan's nine sports – the US lacks exactly judo. | {Japan}″ = {Japan} | **Yes.** {Japan}″ = {Japan} also with gold only. |
 
-**What the medal table cannot show.** The medal table ranks nations on one number. The lattice shows *how* nations are strong: Iran, Denmark and Cuba are far apart in the ranking but identical in profile (F3); the newest Olympic sports are not a door for new nations but are won by those that already medal in athletics (F1); and the number one of the medal table does not dominate everyone – Japan's profile is not covered by the US (F4). F2 and F4 survive the gold-only test; F1 holds only for breaking and skateboarding; F3 is an artefact of counting bronze and silver – itself a finding about what kind of strength these nations have.
+**Limits.** These are first observations from one edition of the Games and one yes/no rule per cell. Stronger conclusions would need several Olympics (to separate a pattern from one good year), the number of events per sport, delegation sizes, and factors such as population, funding or national sport traditions.
+
+**What the medal table cannot show.** The medal table ranks nations on one number. The lattice shows *how* nations are strong: Iran, Denmark and Cuba are far apart in the ranking but identical in profile (F3); judo and wrestling form a grappling profile that only three nations combine (F2); the newest Olympic sports are not a door for new nations but are won by those that already medal in athletics (F1); and the number one of the medal table does not dominate everyone – Japan's profile is not covered by the US (F4). F2 and F4 survive the gold-only test; F1 holds only for breaking and skateboarding; F3 is an artefact of counting bronze and silver – itself a finding about what kind of strength these nations have.
 
 ---
 
