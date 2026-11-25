@@ -39,6 +39,7 @@ python src/build_context.py              # -> olympics.cxt + stats for step 1
 python src/build_context.py --gold-only  # -> olympics_gold.cxt for step 6
 python src/fca_tools.py                  # number of concepts, medal twins
 python src/make_figures.py               # -> all diagrams in figures/ (see figures/README.md)
+python src/export_report.py              # report.md -> report.pdf
 python -m pytest -q                      # helper self-test
 ```
 
