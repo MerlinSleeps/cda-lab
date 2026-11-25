@@ -78,7 +78,7 @@ The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an
 
 **Same shape.** The reduced context (17 nations × 13 sports) has again 125 concepts; its lattice is isomorphic to the original.
 
-**What this says.** The redundancy sits entirely on the side of the nations, not the sports. Every sport has its own set of medal nations (no sport is reducible, 72 of 78 pairs incomparable). Large delegations such as the US, China, France or Japan medal in many sports and carry the structure; nations with a narrow profile *within our selection* – 7 of the 8 removed nations medal in at most 3 of the 13 sports – have rows that are already contained in larger ones and add no new concept. The Netherlands show that this is about the profile, not the size: 34 medals, but most of them in cycling and rowing, which are not in M.
+**What this says.** The redundancy sits entirely on the side of the nations, not the sports. Every sport has its own set of medal nations (no sport is reducible, 72 of 78 pairs incomparable). Large delegations such as the US, China, France or Japan medal in many sports and carry the structure; nations with a narrow profile *within our selection* – 7 of the 8 removed nations medal in at most 3 of the 13 sports – have rows that are already contained in larger ones and add no new concept. The Netherlands show that this is about the profile, not the size: 34 medals, but more than half of them (19) in cycling, rowing and sailing, which are not in M.
 
 ## 6. Answer
 
@@ -99,7 +99,7 @@ The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an
 
 ## Appendix
 
-**A. NextClosure by hand** – `handrechnung/` (photos of the sub-context and the computation; printable sub-context `subcontext.pdf`).
+**A. NextClosure by hand** – photos below and in `handrechnung/`; printable sub-context `handrechnung/subcontext.pdf`.
 
 **B. Cross table** – `olympics.cxt` (full), `olympics_gold.cxt` (gold only).
 
@@ -111,7 +111,7 @@ The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an
 
 **F. AI use** – `AI_LOG.md`.
 
-### A. NextClosure by hand
+### Appendix A – NextClosure by hand
 
 ![Sub-context](handrechnung/hand_01_cross_table.jpg)
 
@@ -125,7 +125,7 @@ The line diagram (Fig. 04, interactive version 05) uses reduced labelling and an
 
 ![Intents in lectic order](handrechnung/hand_06_intents.jpg)
 
-### D. Gold-only lattice
+### Appendix D – Gold-only lattice
 
 ![Gold-only lattice, 47 concepts](figures/04_additive_spread_gold.png)
 
